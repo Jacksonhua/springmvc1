@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+">
+    <context:property-placeholder location="classpath:resource/db.properties"/>
+    <bean name="datasource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="minIdle" value="5"/>
+        <property name="maxActive" value="10"/>
+        <property name="driverClassName" value="${db.driver1}"/>
+        <property name="username" value="${db.username1}"/>
+        <property name="password" value="${db.password1}"/>
+        <property name="url" value="${db.url1}"/>
+    </bean>
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" name="SqlSessionFactory">
+        <property name="dataSource" ref="datasource"/>
+        <property name="mapperLocations" value="classpath:com/wang/mapper/*.xml"/>
+        <property name="typeAliasesPackage" value="com.wang.pojo"/>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.wang.mapper"/>
+    </bean>
+</beans>
